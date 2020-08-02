@@ -1,0 +1,9 @@
+dependences:
+  audioplayers: ^0.15.1
+  flutter_statusbarcolor: ^0.2.3
+  fluttertoast: ^7.0.2
+
+flutter:
+  assets:
+    - images/
+    - assets/
