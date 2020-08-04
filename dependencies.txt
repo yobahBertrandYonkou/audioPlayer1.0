@@ -2,6 +2,7 @@ dependences:
   audioplayers: ^0.15.1
   flutter_statusbarcolor: ^0.2.3
   fluttertoast: ^7.0.2
+  file_picker: ^1.13.0+1
 
 flutter:
   assets:
