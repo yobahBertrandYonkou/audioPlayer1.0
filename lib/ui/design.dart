@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:file_picker/file_picker.dart';
 
 bmbAudioPlayer() {
+  String totalDuration = "00:00";
   FlutterStatusbarcolor.setStatusBarColor(Colors.black45);
   var audioPlayer = AudioPlayer();
   bool isPlaying = false;
@@ -30,7 +31,10 @@ bmbAudioPlayer() {
         alignment: Alignment.center,
         width: double.infinity,
         height: 50,
-        child: Text("Duration and Music name"),
+        child: Text(
+          "$totalDuration /",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       Container(
         margin: EdgeInsets.only(
@@ -49,8 +53,36 @@ bmbAudioPlayer() {
               IconButton(
                 color: Colors.white,
                 onPressed: () async {
-                  String filePath = await FilePicker.getFilePath();
+                  Fluttertoast.showToast(
+                      msg: "Downloading Music",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 3,
+                      backgroundColor: Colors.black38,
+                      textColor: Color(0xFFFFCC00),
+                      fontSize: 16.0);
+                  // String filePath = "test.mp3";
+                  String filePath =
+                      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3";
                   int status = await audioPlayer.play(filePath, isLocal: true);
+
+                  if (status == 1) {
+                    isPlaying = true;
+                  }
+                },
+                icon: Icon(
+                  Icons.web_asset,
+                ),
+                iconSize: 70,
+                splashColor: Colors.white,
+              ),
+              IconButton(
+                color: Colors.white,
+                onPressed: () async {
+                  String filePath = await FilePicker.getFilePath();
+
+                  int status = await audioPlayer.play(filePath, isLocal: true);
+
                   if (status == 1) {
                     isPlaying = true;
                   }
@@ -62,19 +94,32 @@ bmbAudioPlayer() {
                 splashColor: Colors.white,
               ),
               IconButton(
-                color: Colors.white,
-                onPressed: () {},
                 icon: Icon(
-                  Icons.skip_previous,
+                  Icons.play_circle_outline,
                 ),
-                iconSize: 50,
+                color: Colors.white,
+                onPressed: () {
+                  if (isPlaying) {
+                    Fluttertoast.showToast(
+                        msg: "Music Playing",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black38,
+                        textColor: Color(0xFFFFCC00),
+                        fontSize: 16.0);
+                  } else {
+                    audioPlayer.resume();
+                    isPlaying = true;
+                  }
+                  print(isPlaying);
+                },
+                iconSize: 100,
                 splashColor: Colors.white,
               ),
               IconButton(
                 icon: Icon(
-                  isPlaying
-                      ? Icons.pause_circle_outline
-                      : Icons.play_circle_outline,
+                  Icons.pause_circle_outline,
                 ),
                 color: Colors.white,
                 onPressed: () {
@@ -83,21 +128,18 @@ bmbAudioPlayer() {
                     audioPlayer.pause();
                     isPlaying = false;
                   } else {
-                    audioPlayer.resume();
-                    isPlaying = true;
+                    Fluttertoast.showToast(
+                        msg: "No Music Playing",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black38,
+                        textColor: Color(0xFFFFCC00),
+                        fontSize: 16.0);
                   }
                   print(isPlaying);
                 },
-                iconSize: 150,
-                splashColor: Colors.white,
-              ),
-              IconButton(
-                color: Colors.white,
-                onPressed: () {},
-                icon: Icon(
-                  Icons.skip_next,
-                ),
-                iconSize: 50,
+                iconSize: 100,
                 splashColor: Colors.white,
               ),
               IconButton(
